@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import { Router } from "express";
 
-const PORT = 3001;
+const PORT = 0;
 
 const router = Router();
 const server = express();
