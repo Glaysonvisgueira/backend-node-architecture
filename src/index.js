@@ -2,24 +2,31 @@ import http from "http";
 import express from "express";
 import cors from "cors";
 import { Router } from "express";
+import { Server } from "socket.io";
 
-const PORT = 0;
+const PORT = 3001;
 
 const router = Router();
-const server = express();
-server.use(
+const app = express();
+app.use(
   cors({
     origin: "*",
   })
 );
 
-server.use(express.json());
-server.use(router);
+app.use(express.json());
+app.use(router);
 
-http
-  .createServer(server)
+const server = http
+  .createServer(app)
   .listen(PORT, () => console.log(`SERVER IS RUNNING ON PORT ${PORT}.`));
 
-server.get("/", (req, res) => {
+const io = new Server(server);
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
+});
+
+app.get("/", (req, res) => {
   return res.json({ message: "hello world" });
 });
